@@ -29,9 +29,9 @@ export function RelayooDisclosure() {
   return (
     <p className="text-muted-foreground">
       <T>
-        Tunnels make this machine reachable from the internet through your Relay server. Anyone
-        with a tunnel's address can reach the service behind it, and the Relay server sees the
-        traffic it forwards.
+        Tunnels make this machine reachable from the internet through your Relay server. Anyone with
+        a tunnel's address can reach the service behind it, and the Relay server sees the traffic it
+        forwards.
       </T>
     </p>
   );

@@ -362,9 +362,9 @@ export const makeRelayoo = Effect.fn("relayoo.make")(function* () {
   });
 
   const stopTunnel = (input: StopTunnelInput) =>
-    tunnelLock.withPermits(1)(runChecked(["stop", input.tunnelId])).pipe(
-      Effect.andThen(listTunnels),
-    );
+    tunnelLock
+      .withPermits(1)(runChecked(["stop", input.tunnelId]))
+      .pipe(Effect.andThen(listTunnels));
 
   yield* publishStatus;
   yield* startConnect.pipe(Effect.forkIn(pluginScope));

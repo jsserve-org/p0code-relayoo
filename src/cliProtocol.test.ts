@@ -47,7 +47,11 @@ describe("connect output", () => {
 
 describe("credentials", () => {
   it("reads the CLI's credentials file", () => {
-    const json = JSON.stringify({ server: "https://relay.yhw.tw/", agent: "ag1", token: "t".repeat(40) });
+    const json = JSON.stringify({
+      server: "https://relay.yhw.tw/",
+      agent: "ag1",
+      token: "t".repeat(40),
+    });
     expect(parseCredentials(json)).toEqual({
       server: "https://relay.yhw.tw",
       agentId: "ag1",

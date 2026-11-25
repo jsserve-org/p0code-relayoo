@@ -14,12 +14,12 @@ It is off by default. Nothing is installed globally: the plugin downloads the se
 
 ## How it works
 
-| Piece | What the plugin does |
-| --- | --- |
-| CLI | Fetches `<server>/cli.cjs` on first use and rechecks it every 12 hours, one cached file per server. If the server is unreachable, the cached copy keeps working. |
-| Sign in | Runs `relayoo login --server URL --config <dataDir>/relay/credentials.json` (Relay's OAuth device flow) and shows the approval URL and code in the settings panel. You approve it in Relay; the plugin only waits. |
-| Connection | While enabled and signed in, supervises `relayoo connect` and restarts it with backoff. It stops if Relay rejects the credential, or if another connection for the same agent replaces it. |
-| Tunnels | Runs `relayoo list` before every create and reuses a tunnel already forwarding the same kind and port. Addresses are always the ones the server assigns. |
+| Piece      | What the plugin does                                                                                                                                                                                               |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| CLI        | Fetches `<server>/cli.cjs` on first use and rechecks it every 12 hours, one cached file per server. If the server is unreachable, the cached copy keeps working.                                                   |
+| Sign in    | Runs `relayoo login --server URL --config <dataDir>/relay/credentials.json` (Relay's OAuth device flow) and shows the approval URL and code in the settings panel. You approve it in Relay; the plugin only waits. |
+| Connection | While enabled and signed in, supervises `relayoo connect` and restarts it with backoff. It stops if Relay rejects the credential, or if another connection for the same agent replaces it.                         |
+| Tunnels    | Runs `relayoo list` before every create and reuses a tunnel already forwarding the same kind and port. Addresses are always the ones the server assigns.                                                           |
 
 The credentials file lives in the plugin's data directory, mode 0600, written by the CLI. It is
 separate from any `~/.config/relay` you use yourself. The token never appears on a command line,
@@ -30,15 +30,15 @@ and `RELAY_CONFIG` from the server's environment are not passed to the CLI.
 
 Schemas are in [`src/actions.ts`](src/actions.ts), exported as `@t3tools/plugin-relayoo/actions`.
 
-| Action | Input | Output |
-| --- | --- | --- |
-| `status` | `{}` | `RelayStatus` |
-| `setServer` | `{ server }` (an HTTPS origin; HTTP only for localhost) | `RelayStatus` |
-| `signIn` / `cancelSignIn` / `signOut` / `reconnect` | `{}` | `RelayStatus` |
-| `reachThisMachine` | `{}` | `{ tunnel, reused }` |
-| `listTunnels` | `{}` | `{ tunnels }` |
-| `shareLocalPort` | `{ kind: "http" \| "tcp", localPort, name? }` | `{ tunnel, reused }` |
-| `stopTunnel` | `{ tunnelId }` | `{ tunnels }` |
+| Action                                              | Input                                                   | Output               |
+| --------------------------------------------------- | ------------------------------------------------------- | -------------------- |
+| `status`                                            | `{}`                                                    | `RelayStatus`        |
+| `setServer`                                         | `{ server }` (an HTTPS origin; HTTP only for localhost) | `RelayStatus`        |
+| `signIn` / `cancelSignIn` / `signOut` / `reconnect` | `{}`                                                    | `RelayStatus`        |
+| `reachThisMachine`                                  | `{}`                                                    | `{ tunnel, reused }` |
+| `listTunnels`                                       | `{}`                                                    | `{ tunnels }`        |
+| `shareLocalPort`                                    | `{ kind: "http" \| "tcp", localPort, name? }`           | `{ tunnel, reused }` |
+| `stopTunnel`                                        | `{ tunnelId }`                                          | `{ tunnels }`        |
 
 `RelayStatus` is `{ server, signedIn, agentId, pendingSignIn, connection, error }`, where
 `connection` is `off`, `starting`, `connected`, `reconnecting` or `failed`. A tunnel is
