@@ -5,9 +5,12 @@ import * as FileSystem from "effect/FileSystem";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Path from "effect/Path";
+import * as Schema from "effect/Schema";
 import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import * as Stream from "effect/Stream";
+
+const isPluginError = Schema.is(PluginError);
 
 export interface CliPaths {
   /** The server's `/cli.cjs`, cached in the plugin's data directory. */
@@ -37,7 +40,7 @@ export const downloadCli = Effect.fn("relayoo.cli.download")(
     yield* fs.rename(staging, script);
   },
   Effect.mapError((cause) =>
-    cause instanceof PluginError
+    isPluginError(cause)
       ? cause
       : new PluginError({ message: "Could not download the Relay CLI.", cause }),
   ),

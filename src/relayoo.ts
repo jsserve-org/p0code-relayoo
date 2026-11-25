@@ -8,6 +8,7 @@ import * as FileSystem from "effect/FileSystem";
 import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 import * as Ref from "effect/Ref";
+import * as Schema from "effect/Schema";
 import * as Scope from "effect/Scope";
 import * as Semaphore from "effect/Semaphore";
 
@@ -42,6 +43,8 @@ import {
   parseTunnelList,
   type TunnelKind,
 } from "./tunnels.ts";
+
+const isPluginError = Schema.is(PluginError);
 
 const SERVER_KEY = "server";
 const CLI_MAX_AGE = Duration.hours(12);
@@ -174,7 +177,7 @@ export const makeRelayoo = Effect.fn("relayoo.make")(function* () {
     const result = yield* runToCompletion(yield* command(args)).pipe(
       Effect.timeout("90 seconds"),
       Effect.mapError((error) =>
-        error instanceof PluginError
+        isPluginError(error)
           ? error
           : new PluginError({ message: "The Relay CLI did not answer in time." }),
       ),
