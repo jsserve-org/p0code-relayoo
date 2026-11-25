@@ -112,3 +112,7 @@ and tunnel logic live in dependency-free modules ([`src/cliProtocol.ts`](src/cli
 vitest, as long as `vite-plus/test` is aliased to `vitest`.
 
 Use `pnpm` for everything in these docs and scripts.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
